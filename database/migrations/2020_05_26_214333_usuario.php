@@ -19,7 +19,7 @@ class Usuario extends Migration
             $table->string('apellidos', 100);
             $table->string('descripcion', 500);
             $table->string('password', 15);
-            $table->string('email', 30);
+            $table->string('email', 30)->unique();
             $table->string('tokenRecover', 1000);
             $table->boolean('activo');
             $table->timestamp('created_at', 0);
@@ -27,6 +27,7 @@ class Usuario extends Migration
             $table->timestamp('deleted_at', 0);
         });
     }
+    // Joel Puto
 
     /**
      * Reverse the migrations.
