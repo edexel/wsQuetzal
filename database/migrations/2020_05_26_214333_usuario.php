@@ -15,16 +15,15 @@ class Usuario extends Migration
     {
         Schema::create('usuario', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre', 100);
-            $table->string('apellidos', 100);
+            $table->string('username', 100)->unique();
             $table->string('descripcion', 500);
-            $table->string('password', 15);
+            $table->string('password', 200);
             $table->string('email', 30)->unique();
             $table->string('tokenRecover', 1000);
             $table->boolean('activo');
-            $table->timestamp('created_at', 0);
-            $table->timestamp('updated_at', 0);
-            $table->timestamp('deleted_at', 0);
+            $table->timestamp('created_at', 0)->nullable();
+            $table->timestamp('updated_at', 0)->nullable();
+            $table->timestamp('deleted_at', 0)->nullable();
         });
     }
     // Joel Puto
