@@ -16,3 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+$router->get('/password', function () use ($router) {
+    return Hash::make('12345');
+});

@@ -1,16 +1,16 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Swagger my api",
+        "title": "Quetzal Api System v1",
         "license": {
-            "name": "my api"
+            "name": "Quetzal api"
         },
         "version": "1.0.0"
     },
     "servers": [
         {
             "url": "/api/v1",
-            "description": "Api Documentations my api"
+            "description": "Documentacion de Api de Quetzal"
         }
     ],
     "paths": {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Auth;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Responses\Response as ResponseJson;
 
@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Hash;
 // Utils
 use App\Utils\JwtToken;
 //Models
-use App\DbModels\usuario;
+use App\Models\usuario;
 // resource
 use App\Http\Resources\Admin\Auth\LoginResource;
 
@@ -77,7 +77,12 @@ class LoginController
         try {
              // Encuentra usuario de la base de datos
              $oUser = usuario::where('email', $oRequest->input('email'))->first();
-               // verifica si el usuario existe con el status activo sino responde con error
+              // verifica nombre de usuario
+            if(!$oUser)
+             // Encuentra usuario de la base de datos
+             $oUser = usuario::where('username', $oRequest->input('email'))->first();
+
+             // verifica si el usuario existe con el status activo sino responde con error
             if(!$oUser)
             return response()->json($this->oResponse->fnResult(false, $this->message, $this->message),  Response::HTTP_UNAUTHORIZED);
             // Verifica la contraseña y genera un token sino responde con error
@@ -100,7 +105,7 @@ class LoginController
 
         $credentials = $oRequest->only('email', 'password');
         $validation = \Validator::make($credentials, [
-            'email' => 'required|email|max:150',
+        //    'email' => 'required|email|max:150',
             'password'  => 'required|max:150'
         ],[
             'email.required' => 'Por favor ingresa un correo válido',

@@ -1,21 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Usuario;
+namespace App\Http\Controllers\CLiente;
+
 
 use App\Http\Responses\Response as ResponseJson;
-// Codes Responses
+// responses
 use Symfony\Component\HttpFoundation\Response;
+
+
 use Illuminate\Http\Request;
-// Facades
-use Illuminate\Support\Facades\Hash;
+// Utils
+use App\Utils\JwtToken;
 //Models
-use App\DbModels\usuario;
+use App\Models\Cliente;
+// resource
+use App\Http\Resources\Admin\Auth\LoginResource;
 
-
-
-class GetAllController
+class GetCodeClient extends Controller
 {
-
     public function __construct()
     {
         $this->oResponse = new ResponseJson();

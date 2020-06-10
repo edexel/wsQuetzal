@@ -25,11 +25,11 @@ class Controller extends BaseController
  * @OA\OpenApi(
  *     @OA\Info(
  *         version="1.0.0",
- *         title="Swagger my api",
- *         @OA\License(name="my api")
+ *         title="Quetzal Api System v1",
+ *         @OA\License(name="Quetzal api")
  *     ),
  *     @OA\Server(
- *         description="Api Documentations my api",
+ *         description="Documentacion de Api de Quetzal",
  *         url="/api/v1",
  *     ),
  * )
