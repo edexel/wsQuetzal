@@ -17,7 +17,7 @@ class Usuario extends Migration
             $table->id();
             $table->string('username', 100)->unique();
             $table->string('descripcion', 500);
-            $table->string('password', 15);
+            $table->string('password', 200);
             $table->string('email', 30)->unique();
             $table->string('tokenRecover', 1000);
             $table->boolean('activo');
