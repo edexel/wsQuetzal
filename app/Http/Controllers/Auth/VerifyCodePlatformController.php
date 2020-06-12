@@ -2,28 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
 // extends
 use App\Http\Controllers\Controller;
-
 // responses
 use App\Http\Responses\Response as ResponseJson;
-// responses
 use App\Http\Resources\Auth\VerifyCodePltformResource;
-
-// Facades
-use App\Utils\JwtToken;
-// Utils
-
-//Models
-use Illuminate\Support\Facades\Hash;
 // requests
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Requests\Auth\NewCodePlatformRequest;
-// resource
-use Validator;
 
 class VerifyCodePlatformController  extends Controller
 {

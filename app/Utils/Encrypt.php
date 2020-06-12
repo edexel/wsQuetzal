@@ -7,10 +7,10 @@ namespace App\Utils;
 /** Encripta y desEncripta una cadena
  *  Created by: Edewaldo nuñez
  */
-class Encript
+class Encrypt
 {
 
-    public static function CodeString($data)
+    public static function encrypt($data)
     {
 
         // Store the cipher method
@@ -32,7 +32,7 @@ class Encript
         return $encryption; //FJmbcm1+Tcqnd/S6rQ==
     }
 
-    public static function DecodeString($data)
+    public static function decrypt($data)
     {
         // Store the cipher method
         $ciphering = "AES-128-CTR";

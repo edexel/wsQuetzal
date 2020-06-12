@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $updated_at
  * @property string $deleted_at
  */
-class usuario extends Model
+class Usuario extends Model
 {
     /**
      * The table associated with the model.
@@ -30,7 +30,7 @@ class usuario extends Model
      * 
      * @var string
      */
-    protected $primaryKey = 'idUsuario';
+    protected $primaryKey = 'id';
 
     /**
      * @var array

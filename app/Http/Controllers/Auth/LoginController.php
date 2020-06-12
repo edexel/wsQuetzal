@@ -10,16 +10,14 @@ use App\Http\Requests\Auth\LoginRequest;
 // responses
 use App\Http\Resources\Auth\LoginResource;
 use App\Http\Responses\Response as ResponseJson;
-use App\Models\usuario;
 // Facades
 use App\Utils\JwtToken;
+use Illuminate\Support\Facades\Hash;
 
 //Models
-use Illuminate\Support\Facades\Hash;
+use App\Models\Usuario;
 // requests
 use Symfony\Component\HttpFoundation\Response;
-// resource
-use Validator;
 
 class LoginController  extends Controller
 {
@@ -81,27 +79,6 @@ class LoginController  extends Controller
 
         // response el resultado con su codigo Http
         return response()->json($result, Response::HTTP_OK);
-    }
-
-    private function validateRequest($request)
-    {
-
-        $credentials = $request->only('email', 'password');
-        $validation = \Validator::make($credentials, [
-            //    'email' => 'required|email|max:150',
-            'password' => 'required|max:150',
-        ], [
-            'email.required' => 'Por favor ingresa un correo válido',
-            'email.email' => 'Por favor ingresa un correo válido',
-            'email.exists' => 'Tu usuario y/o contraseña son incorrectos, por favor verifica tus datos',
-            'email.min' => 'Tu correo electrónico debe contener al menos 6 caracteres',
-            'email.max' => 'Tu correo electrónico debe contener al máximo 150 caracteres',
-            'password.required' => 'Tu usuario y/o contraseña son incorrectos, por favor verifica tus datos',
-            'password.min' => 'Tu contraseña debe contener al menos 8 caracteres',
-            'password.max' => 'Tu correo electrónico debe contener al máximo 150 caracteres',
-        ]);
-
-        return $validation;
     }
 
     /**
