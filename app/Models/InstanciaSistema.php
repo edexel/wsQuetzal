@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Cliente $cliente
  * @property InstanciaCodigo[] $instanciaCodigos
  */
-class instancia_sistema extends Model
+class InstanciaSistema extends Model
 {
     /**
      * The table associated with the model.
@@ -31,7 +31,7 @@ class instancia_sistema extends Model
      * 
      * @var string
      */
-    protected $primaryKey = 'idInstanciaSistema';
+    protected $primaryKey = 'id';
 
     /**
      * @var array
@@ -43,7 +43,7 @@ class instancia_sistema extends Model
      */
     public function cliente()
     {
-        return $this->belongsTo('App\Cliente', 'idCliente', 'idCliente');
+        return $this->belongsTo('App\Cliente', 'id', 'idCliente');
     }
 
     /**
@@ -51,6 +51,6 @@ class instancia_sistema extends Model
      */
     public function instanciaCodigos()
     {
-        return $this->hasMany('App\InstanciaCodigo', 'idInstanciaSistema', 'idInstanciaSistema');
+        return $this->hasMany('App\InstanciaCodigo', 'idInstanciaSistema', 'id');
     }
 }

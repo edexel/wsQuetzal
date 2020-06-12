@@ -6,20 +6,17 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 //Rquest
 use App\Http\Requests\Auth\LoginRequest;
-
 // responses
 use App\Http\Resources\Auth\LoginClientResource;
 use App\Http\Responses\Response as ResponseJson;
-use App\Models\cliente;
-// Facades
+use Symfony\Component\HttpFoundation\Response;
+use App\Models\Cliente;
+// Utils
 use App\Utils\JwtToken;
-
 //Models
 use Illuminate\Support\Facades\Hash;
-// requests
-use Symfony\Component\HttpFoundation\Response;
-// resource
-use Validator;
+
+
 
 class LoginClientController  extends Controller
 {
@@ -42,12 +39,12 @@ class LoginClientController  extends Controller
     {
 
         // Encuentra usuario de la base de datos
-        $client = cliente::where('email', $request->input('username'))->first();
+        $client = Cliente::where('email', $request->input('username'))->first();
         
         //verifica si el usuario existe con email
         if(!$client)
             // Si no encuentra su email busca por username
-            $client = cliente::where('nombre', $request->input('username'))->first();
+            $client = Cliente::where('nombre', $request->input('username'))->first();
 
         // se define la respuesta de error
         $result = $this->result->build($this->STATUS_ERROR, $this->NO_RESULT, $this->NO_TOTAL, $this->message);

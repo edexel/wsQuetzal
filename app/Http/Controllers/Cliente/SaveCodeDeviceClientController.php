@@ -10,10 +10,10 @@ use App\Http\Requests\Auth\NewCodePlatformRequest;
 // responses
 use App\Http\Responses\Response as ResponseJson;
 // responses
-use App\Models\instancia_codigos;
+use App\Models\InstanciaCodigos;
 
 // Facades
-use App\Models\instancia_sistema;
+use App\Models\InstanciaSistema;
 // Utils
 
 //Models
@@ -45,10 +45,10 @@ class SaveCodeDeviceClientController extends Controller
 
         $code = $request->input('codigo');
 
-        $idSistema = instancia_sistema::where("idCliente", "=", $this->oCurrentUser->idCliente)->select("idInstanciaSistema")->first();
+        $idSistema = InstanciaSistema::where("idCliente", "=", $this->oCurrentUser->idCliente)->select("idInstanciaSistema")->first();
   
         // Guarda el codigo en el sistenma deacuerdoa la instancia de usuario logeado
-        $instancia_codigos = new instancia_codigos;
+        $instancia_codigos = new InstanciaCodigos;
 
         $instancia_codigos->idInstanciaSistema = $idSistema->idInstanciaSistema;
         $instancia_codigos->codigo = $code;

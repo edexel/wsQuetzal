@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $deleted_at
  * @property InstanciaSistema[] $instanciaSistemas
  */
-class cliente extends Model
+class Cliente extends Model
 {
     /**
      * The table associated with the model.
@@ -31,7 +31,7 @@ class cliente extends Model
      * 
      * @var string
      */
-    protected $primaryKey = 'idCliente';
+    protected $primaryKey = 'id';
 
     /**
      * @var array
@@ -43,6 +43,6 @@ class cliente extends Model
      */
     public function instanciaSistemas()
     {
-        return $this->hasMany('App\InstanciaSistema', 'idCliente', 'idCliente');
+        return $this->hasMany('App\InstanciaSistema', 'id', 'idCliente');
     }
 }

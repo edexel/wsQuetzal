@@ -14,14 +14,14 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $deleted_at
  * @property InstanciaSistema $instanciaSistema
  */
-class instancia_codigos extends Model
+class InstanciaCodigos extends Model
 {
     /**
      * The primary key for the model.
      * 
      * @var string
      */
-    protected $primaryKey = 'idInstanciaCodigos';
+    protected $primaryKey = 'id';
 
     /**
      * @var array
