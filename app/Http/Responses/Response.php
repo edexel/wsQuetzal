@@ -9,19 +9,32 @@ namespace App\Http\Responses;
 
 class Response
 {
-	private $oResult;
+	private $result;
 
 	public function __construct()
 	{
-		$this->oResult = new AbstractResponse();
+		// crea un objeto php para la respuesta
+		$this->result = new \stdClass;
 	}
 
-	public function fnResult($bStatus = null, $dcData = null, $sMessage = null)
+	// construye una respuesta dependiendo de los datos
+	public function build($status = null, $data = null, $total= null, $message = null)
 	{
-		$this->oResult->status = $bStatus;
-		$this->oResult->data = $dcData;
-		$this->oResult->message = $sMessage;
+		// asigna estatus y mensaje
+		$this->result->status = $status;
+		$this->result->message = $message;
 
-		return $this->oResult;
+		// verifica si hay un total
+		// agrega propiedad a la respuesta
+		if($total != null)
+			$this->result->total = $total;
+
+		// verifica si hay datos
+		// agrega propiedad a la respuesta
+		if($data != null)
+			$this->result->data = $data;
+		
+		// regresa el objeto canstruido de respuesta
+		return $this->result;
 	}
 }

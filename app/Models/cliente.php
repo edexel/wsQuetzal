@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $idCliente
  * @property string $nombre
  * @property string $apellidos
- * @property string $description
+ * @property string $email
+ * @property string $password
+ * @property string $descripcion
  * @property integer $Activo
  * @property string $created_at
  * @property string $updated_at
@@ -34,7 +36,7 @@ class cliente extends Model
     /**
      * @var array
      */
-    protected $fillable = ['nombre', 'apellidos', 'description', 'Activo', 'created_at', 'updated_at', 'deleted_at'];
+    protected $fillable = ['nombre', 'apellidos', 'email', 'password', 'descripcion', 'Activo', 'created_at', 'updated_at', 'deleted_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

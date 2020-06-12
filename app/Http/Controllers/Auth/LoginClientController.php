@@ -10,7 +10,7 @@ use App\Http\Requests\Auth\LoginRequest;
 // responses
 use App\Http\Resources\Auth\LoginResource;
 use App\Http\Responses\Response as ResponseJson;
-use App\Models\usuario;
+use App\Models\cliente;
 // Facades
 use App\Utils\JwtToken;
 
@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 // resource
 use Validator;
 
-class LoginController  extends Controller
+class LoginClientController  extends Controller
 {
 
     public function __construct()
@@ -41,38 +41,31 @@ class LoginController  extends Controller
     public function __invoke(LoginRequest $request)
     {
 
-        // if (self::validateRequest($request)->fails()) 
-        //     return response()->json($this->oResponse->fnResult(false, null, $validation->errors()), Response::HTTP_BAD_REQUEST);
-        
-
         // Encuentra usuario de la base de datos
-        $user = Usuario::where('email', $request->input('username'))->first();
+        $client = cliente::where('email', $request->input('username'))->first();
         
         //verifica si el usuario existe con email
-        if(!$user)
+        if(!$client)
             // Si no encuentra su email busca por username
-            $user = Usuario::where('username', $request->input('username'))->first();
+            $client = Usuario::where('nombre', $request->input('username'))->first();
 
         // se define la respuesta de error
         $result = $this->result->build($this->STATUS_ERROR, $this->NO_RESULT, $this->NO_TOTAL, $this->message);
        
         // verifica si el usuario existe sino responde con error
-        if (!$user)
+        if (!$client)
              return response()->json($result,  Response::HTTP_UNAUTHORIZED);        
 
         // Verifica la contraseña y genera un token sino responde con error
-        if (!Hash::check($request->input('password'), $user->password))
+        if (!Hash::check($request->input('password'), $client->password))
             return response()->json($result, Response::HTTP_UNAUTHORIZED);
          
-        // // Se actualiza la última vez que inició sesión el usuario
-        // $user->lastSession = date("Y-m-d H:i:s");
-        // $user->save();
 
         // El usuario es válido. se asigna a el resultado el token.
-        $user['token'] =  JwtToken::create($user);
+        $client['token'] =  JwtToken::createCodeClient($client);
       
         // Resultado mappeado
-        $result = new LoginResource($user);
+        $result = new LoginResource($client);
     
         $this->message = 'Usuario ha iniciado sesión correctamente';
 
@@ -83,41 +76,20 @@ class LoginController  extends Controller
         return response()->json($result, Response::HTTP_OK);
     }
 
-    private function validateRequest($request)
-    {
-
-        $credentials = $request->only('email', 'password');
-        $validation = \Validator::make($credentials, [
-            //    'email' => 'required|email|max:150',
-            'password' => 'required|max:150',
-        ], [
-            'email.required' => 'Por favor ingresa un correo válido',
-            'email.email' => 'Por favor ingresa un correo válido',
-            'email.exists' => 'Tu usuario y/o contraseña son incorrectos, por favor verifica tus datos',
-            'email.min' => 'Tu correo electrónico debe contener al menos 6 caracteres',
-            'email.max' => 'Tu correo electrónico debe contener al máximo 150 caracteres',
-            'password.required' => 'Tu usuario y/o contraseña son incorrectos, por favor verifica tus datos',
-            'password.min' => 'Tu contraseña debe contener al menos 8 caracteres',
-            'password.max' => 'Tu correo electrónico debe contener al máximo 150 caracteres',
-        ]);
-
-        return $validation;
-    }
-
     /**
      * @OA\Post(
-     *     path="/admin/auth/login",
+     *     path="/admin/auth/loginClient",
      *     tags={"Auth"},
-     *     operationId="Login",
+     *     operationId="loginClient",
      *     @OA\Response(
      *         response=200,
      *         description="El usuario a iniciado sesión correctamente",
-     *         @OA\JsonContent(ref="#/components/schemas/LoginResponse")
+     *         @OA\JsonContent(ref="#/components/schemas/loginClientResponse")
      *     ),
      *     @OA\Response(
      *         response=401,
      *         description="Usuario no fue autorizado",
-     *         @OA\JsonContent(ref="#/components/schemas/ErrorResponse")
+     *         @OA\JsonContent(ref="#/components/schemas/ErrorloginClientResponse")
      *     ),
      *     @OA\RequestBody(
      *         description="Formato de envío de datos",
@@ -143,7 +115,7 @@ class LoginController  extends Controller
 
     /**
      * @OA\Schema(
-     *   schema="LoginResponse",
+     *   schema="loginClientResponse",
      *   @OA\Property(
      *     property="status",
      *     type="boolean"
@@ -154,48 +126,24 @@ class LoginController  extends Controller
      *   ),
      *   @OA\Property(
      *     property="data",
-     *     ref="#/components/schemas/LoginResponseData"
+     *     ref="#/components/schemas/loginClientResponseData"
      *   )
      * )
      */
 
     /**
      * @OA\Schema(
-     *   schema="LoginResponseData",
-     *   @OA\Property(
-     *     property="id",
-     *     type="integer"
-     *   ),
+     *   schema="loginClientResponseData",
      *   @OA\Property(
      *     property="token",
      *     type="string"
-     *   ),
-     *   @OA\Property(
-     *     property="nombre",
-     *     type="string"
-     *   ),
-     *   @OA\Property(
-     *     property="email",
-     *     type="string"
-     *   ),
-     *   @OA\Property(
-     *     property="admin",
-     *     type="boolean"
-     *   ),
-     *   @OA\Property(
-     *     property="created_at",
-     *     type="string"
-     *   ),
-     *   @OA\Property(
-     *     property="updated_at",
-     *     type="string"
      *   )
      * )
      */
 
     /**
      * @OA\Schema(
-     *   schema="ErrorResponse",
+     *   schema="ErrorloginClientResponse",
      *   @OA\Property(
      *     property="status",
      *     type="boolean"

@@ -6,12 +6,21 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
-use Firebase\JWT\JWT;
-use App\Http\Responses\Response;
-
+// requests
+use Symfony\Component\HttpFoundation\Response;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+
+    # PROPIEDADES GENERALES
+    public $usuarioLogueado;
+    public $NO_RESULT = null;
+    public $NO_TOTAL = null;
+    public $STATUS_OK = true;
+    public $STATUS_ERROR = false;
+    public $menssage;
+    #TERMINA PROPIEDADES GENERALES
 
 /**
  * @OA\SecurityScheme(

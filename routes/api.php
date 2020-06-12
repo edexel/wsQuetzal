@@ -18,12 +18,25 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
+Route::get('/clear', function() {
+    //ruta para forzar el limpiado de cache sin usar la consola
+    Artisan::call('cache:clear');
+    Artisan::call('config:clear');
+    Artisan::call('route:clear');
+    return "Comandos Ejecutados Correctamente --";
+});
 
 
 $router->group(['prefix' => 'v1/admin','middleware' => ['auth']], function() use ($router) {
     // rutas de recursos de acceso
     require (__DIR__ . '/admin/usuario.php');
+
+}
+);
+
+$router->group(['prefix' => 'v1/admin','middleware' => ['authClient']], function() use ($router) {
+    // rutas de recursos de acceso
+    require (__DIR__ . '/admin/cliente.php');
 }
 );
 

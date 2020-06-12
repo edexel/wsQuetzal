@@ -14,15 +14,14 @@ use Firebase\JWT\ExpiredException;
 
 use Symfony\Component\HttpFoundation\Response;
 
-class Authenticate
+class AuthenticateClient
 {
     private $oResponse;
 
     /**
-     * Crea una instancia nueva del controlador iniciando la respuesta por default.
-     *
-     * Created by Jesus sanchez
-     * Created date: 11 May 2018
+     * middleware para autenticar el login de cliente
+     * Created by Edewaldo Nuñez
+     * Created date: 11 Jun 2020
      * @return void
      */
     public function __construct() {
@@ -56,7 +55,7 @@ class Authenticate
             return response()->json($result,  Response::HTTP_UNAUTHORIZED);     
 
             // decodifica el token
-            $oCredentials = JWT::decode($sToken, env('JWT_SECRET'), ['HS256']);
+            $oCredentials = JWT::decode($sToken, env('JWT_CLIENT_SECRET'), ['HS256']);
 
             // Asinga los datos del usuario al $request->auth para usarlo en todo el sistema
             $request->auth = $oCredentials->sub;
