@@ -16,7 +16,9 @@ class ClienteSeeder extends Seeder
     {
         DB::table('cliente')->insert([
             'nombre' => 'Test',
-            'apellidos' => 'Tester',
+            'apellido' => 'Tester',
+            'email' => 'cliente@mail.com',
+            'password' => Hash::make('test123'),
             'descripcion' => Str::random(30),
             'activo' => true,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s')

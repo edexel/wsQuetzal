@@ -22,6 +22,7 @@ class UsuarioSeeder extends Seeder
             'email' => 'test@mail.com',
             'tokenRecover' => Str::random(50),
             'activo' => true,
+            'ultimaConexion' => Carbon::now()->format('Y-m-d H:i:s'),
             'created_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
     }
