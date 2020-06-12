@@ -1,38 +1,37 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Swagger my api",
+        "title": "Quetzal Api System v1",
         "license": {
-            "name": "my api"
+            "name": "Quetzal api"
         },
         "version": "1.0.0"
     },
     "servers": [
         {
             "url": "/api/v1",
-            "description": "Api Documentations my api"
+            "description": "Documentacion de Api de Quetzal"
         }
     ],
     "paths": {
-        "/admin/auth/login": {
+        "/admin/auth/loginClient": {
             "post": {
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Login de usuario",
-                "operationId": "Login",
+                "operationId": "loginClient",
                 "requestBody": {
-                    "description": "Input data format",
+                    "description": "Formato de envío de datos",
                     "content": {
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "email": {
-                                        "description": "usuario del sistema",
+                                    "username": {
+                                        "description": "Nombre de usuario",
                                         "type": "string"
                                     },
                                     "password": {
-                                        "description": "contraseña de usuario",
+                                        "description": "Contraseña",
                                         "type": "string"
                                     }
                                 },
@@ -42,14 +41,311 @@
                     }
                 },
                 "responses": {
-                    "405": {
-                        "description": "Invalid input"
+                    "200": {
+                        "description": "El usuario a iniciado sesión correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/loginClientResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Usuario no fue autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorloginClientResponse"
+                                }
+                            }
+                        }
                     }
                 }
+            }
+        },
+        "/admin/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "Login",
+                "requestBody": {
+                    "description": "Formato de envío de datos",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "username": {
+                                        "description": "Nombre de usuario",
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "description": "Contraseña",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "El usuario a iniciado sesión correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Usuario no fue autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/auth/VerifyCodePlatform": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "varifica el codigo ingresado",
+                "operationId": "VerifyCodePlatform",
+                "requestBody": {
+                    "description": "Input data format",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "codigo": {
+                                        "description": "codigo ",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Codigo aceptado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/VerifyCodePlatformResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Codigo incorrecto",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/cliente/SaveCodeDevice": {
+            "post": {
+                "tags": [
+                    "Cliente"
+                ],
+                "summary": "Guarda codigo en plataforma",
+                "operationId": "SaveCodeDevice",
+                "requestBody": {
+                    "description": "Input data format",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "codigo": {
+                                        "description": "codigo ",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Exito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SaveCodeDeviceResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Codigo incorrecto",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "authorization": []
+                    }
+                ]
             }
         }
     },
     "components": {
+        "schemas": {
+            "loginClientResponse": {
+                "properties": {
+                    "status": {
+                        "type": "boolean"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/loginClientResponseData"
+                    }
+                },
+                "type": "object"
+            },
+            "loginClientResponseData": {
+                "properties": {
+                    "token": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "ErrorloginClientResponse": {
+                "properties": {
+                    "status": {
+                        "type": "boolean"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "LoginResponse": {
+                "properties": {
+                    "status": {
+                        "type": "boolean"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/LoginResponseData"
+                    }
+                },
+                "type": "object"
+            },
+            "LoginResponseData": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "token": {
+                        "type": "string"
+                    },
+                    "nombre": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "admin": {
+                        "type": "boolean"
+                    },
+                    "created_at": {
+                        "type": "string"
+                    },
+                    "updated_at": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "ErrorResponse": {
+                "properties": {
+                    "status": {
+                        "type": "boolean"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "VerifyCodePlatformResponse": {
+                "properties": {
+                    "status": {
+                        "type": "boolean"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/VerifyCodePlatformResponseData"
+                    }
+                },
+                "type": "object"
+            },
+            "VerifyCodePlatformResponseData": {
+                "properties": {
+                    "nombre": {
+                        "type": "string"
+                    },
+                    "apellidos": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "descripcion": {
+                        "type": "string"
+                    },
+                    "subDominio": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "SaveCodeDeviceResponse": {
+                "properties": {
+                    "status": {
+                        "type": "boolean"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            }
+        },
         "securitySchemes": {
             "authorization": {
                 "type": "apiKey",

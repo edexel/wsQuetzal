@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Cliente extends Migration
+class InstanciaCodigos extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class Cliente extends Migration
      */
     public function up()
     {
-        Schema::create('cliente', function (Blueprint $table) {
+        Schema::create('instancia_codigos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre', 50);
-            $table->string('apellido', 50);
-            $table->string('email', 30)->unique();
-            $table->string('password', 200);
-            $table->string('descripcion', 100);
+            $table->foreignId('idInstanciaSistema')->constrained('instancia_sistema');
+            $table->string('codigo', 15);
             $table->boolean('activo');
             $table->timestamp('created_at', 0)->nullable();
             $table->timestamp('updated_at', 0)->nullable();
@@ -34,6 +31,6 @@ class Cliente extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cliente');
+        Schema::dropIfExists('instancia_codigos');
     }
 }

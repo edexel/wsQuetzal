@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Usuario;
+namespace App\Http\Controllers\Usuario;
 
 use App\Http\Responses\Response as ResponseJson;
 // Codes Responses
@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 // Facades
 use Illuminate\Support\Facades\Hash;
 //Models
-use App\DbModels\usuario;
+use App\Models\usuario;
 
 
 
