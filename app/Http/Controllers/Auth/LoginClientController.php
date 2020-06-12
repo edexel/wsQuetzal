@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 
 // responses
-use App\Http\Resources\Auth\LoginResource;
+use App\Http\Resources\Auth\LoginClientResource;
 use App\Http\Responses\Response as ResponseJson;
 use App\Models\cliente;
 // Facades
@@ -47,7 +47,7 @@ class LoginClientController  extends Controller
         //verifica si el usuario existe con email
         if(!$client)
             // Si no encuentra su email busca por username
-            $client = Usuario::where('nombre', $request->input('username'))->first();
+            $client = cliente::where('nombre', $request->input('username'))->first();
 
         // se define la respuesta de error
         $result = $this->result->build($this->STATUS_ERROR, $this->NO_RESULT, $this->NO_TOTAL, $this->message);
@@ -65,7 +65,7 @@ class LoginClientController  extends Controller
         $client['token'] =  JwtToken::createCodeClient($client);
       
         // Resultado mappeado
-        $result = new LoginResource($client);
+        $result = new LoginClientResource($client);
     
         $this->message = 'Usuario ha iniciado sesión correctamente';
 

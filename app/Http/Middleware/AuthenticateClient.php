@@ -56,10 +56,10 @@ class AuthenticateClient
 
             // decodifica el token
             $oCredentials = JWT::decode($sToken, env('JWT_CLIENT_SECRET'), ['HS256']);
-
+          
             // Asinga los datos del usuario al $request->auth para usarlo en todo el sistema
             $request->auth = $oCredentials->sub;
-            
+           
             return $next($request);
     }
 }

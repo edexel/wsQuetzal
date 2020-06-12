@@ -6,13 +6,17 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+// Util
+use App\Utils\JwtToken;
 // requests
 use Symfony\Component\HttpFoundation\Response;
+use \Illuminate\Http\Request;
+
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-
+    public $oCurrentUser;
     # PROPIEDADES GENERALES
     public $usuarioLogueado;
     public $NO_RESULT = null;
@@ -45,6 +49,10 @@ class Controller extends BaseController
  */
     public function __construct()
     {
-        $this->oResponse = new Response();
+        // obtiene token del header
+        $headers = Apache_request_headers();
+        $this->oCurrentUser  = JwtToken::getDataToken($headers["authorization"]);
+
+        $this->oResponse = new Response();    
     }
 }
