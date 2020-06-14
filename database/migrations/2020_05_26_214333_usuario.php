@@ -22,9 +22,9 @@ class Usuario extends Migration
             $table->string('tokenRecover', 1000);
             $table->boolean('activo');
             $table->dateTime('ultimaConexion', 0);
-            $table->timestamp('created_at', 0)->nullable();
-            $table->timestamp('updated_at', 0)->nullable();
-            $table->timestamp('deleted_at', 0)->nullable();
+            $table->dateTime('created_at', 0)->nullable();
+            $table->dateTime('updated_at', 0)->nullable();
+            $table->dateTime('deleted_at', 0)->nullable();
         });
     }
     // Joel Puto
