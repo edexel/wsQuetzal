@@ -18,9 +18,9 @@ class InstanciaCodigos extends Migration
             $table->foreignId('idInstanciaSistema')->constrained('instancia_sistema');
             $table->string('codigo', 15);
             $table->boolean('activo');
-            $table->timestamp('created_at', 0)->nullable();
-            $table->timestamp('updated_at', 0)->nullable();
-            $table->timestamp('deleted_at', 0)->nullable();
+            $table->dateTime('created_at', 0)->nullable();
+            $table->dateTime('updated_at', 0)->nullable();
+            $table->dateTime('deleted_at', 0)->nullable();
         });
     }
 
