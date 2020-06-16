@@ -2,26 +2,26 @@
 
 namespace App\Http\Controllers\Cliente;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\NewCodePlatformRequest;
-
 // extends
-
+use App\Http\Controllers\Controller;
 // responses
 use App\Http\Responses\Response as ResponseJson;
-// responses
-use App\Models\InstanciaCodigos;
-
-// Facades
-use App\Models\InstanciaSistema;
-// Utils
-
-//Models
-use Illuminate\Http\Request;
-// requests
 use Symfony\Component\HttpFoundation\Response;
-// resource
+// requests
+use Illuminate\Http\Request;
+use App\Http\Requests\Auth\NewCodePlatformRequest;
+//Business
+use App\Business\InstanciaCodigoBusiness;
 
+
+   //
+    /**
+     * Created by Ede Nunez
+     *
+     * Modify by Ede Nunez
+     * Date: 11 Jun 2020
+     * Description: Guarda el codigo de activacion de dispositivo de un cliente
+     */
 class SaveCodeDeviceClientController extends Controller
 {
 
@@ -32,33 +32,15 @@ class SaveCodeDeviceClientController extends Controller
     }
     private $message = 'código incorrecto';
 
-    //
-    /**
-     * Created by Ede Nunez
-     *
-     * Modify by Ede Nunez
-     * Date: 11 Jun 2020
-     * Description: Guarda el codigo de activacion de dispositivo de un cliente
-     */
+ 
     public function __invoke(NewCodePlatformRequest $request)
     {
 
-        $code = $request->input('codigo');
-
-        $idSistema = InstanciaSistema::where("idCliente", "=", $this->oCurrentUser->idCliente)->select("idInstanciaSistema")->first();
-  
-        // Guarda el codigo en el sistenma deacuerdoa la instancia de usuario logeado
-        $instancia_codigos = new InstanciaCodigos;
-
-        $instancia_codigos->idInstanciaSistema = $idSistema->idInstanciaSistema;
-        $instancia_codigos->codigo = $code;
-        $instancia_codigos->activo = 1;
-        $instancia_codigos->created_at = date("Y-m-d H:i:s");
-
-        $instancia_codigos->save();
+         // realiza toda la logica de validacion
+         $client = InstanciaCodigoBusiness::fnSaveCodeClient($request->input('codigo'), $this->oCurrentUser->idCliente);
 
         // construye respuesta correcta
-        $result = $this->result->build($this->STATUS_OK, $this->NO_RESULT, $this->NO_TOTAL, "Código encontrado");
+        $result = $this->result->build($this->STATUS_OK, $this->NO_RESULT, $this->NO_TOTAL, "Registro guardado");
 
         // response el resultado con su codigo Http
         return response()->json($result, Response::HTTP_OK);

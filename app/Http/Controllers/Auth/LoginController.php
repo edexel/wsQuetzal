@@ -4,29 +4,14 @@ namespace App\Http\Controllers\Auth;
 
 // extends
 use App\Http\Controllers\Controller;
-//Rquest
+//Request
 use App\Http\Requests\Auth\LoginRequest;
-
 // responses
 use App\Http\Resources\Auth\LoginResource;
 use App\Http\Responses\Response as ResponseJson;
-// Facades
-use App\Utils\JwtToken;
-use Illuminate\Support\Facades\Hash;
-
-//Models
-use App\Models\Usuario;
-// requests
 use Symfony\Component\HttpFoundation\Response;
-
-class LoginController  extends Controller
-{
-
-    public function __construct()
-    {
-        $this->result = new ResponseJson();
-    }
-    private $message = 'Tu usuario y/o contraseña son incorrectos, por favor verifica tus datos';
+//Business
+use App\Business\UsuarioBusiness;
 
 /**
  * Created by Ede Nunez
@@ -36,46 +21,34 @@ class LoginController  extends Controller
  * Description: Se modifica la ruta y se refactoriza el código
  *              tambien se agrega el swagger en la parte final del archivo
  */
+class LoginController extends Controller
+{
+
+    public function __construct()
+    {
+        $this->result = new ResponseJson();
+    }
+    private $message = 'Tu usuario y/o contraseña son incorrectos, por favor verifica tus datos';
+
+
     public function __invoke(LoginRequest $request)
     {
+        // realiza toda la logica de validacion
+        $user = UsuarioBusiness::fnLoginUser($request->input('username'), $request->input('password'));
 
-        // if (self::validateRequest($request)->fails()) 
-        //     return response()->json($this->oResponse->fnResult(false, null, $validation->errors()), Response::HTTP_BAD_REQUEST);
-        
-
-        // Encuentra usuario de la base de datos
-        $user = Usuario::where('email', $request->input('username'))->first();
-        
-        //verifica si el usuario existe con email
-        if(!$user)
-            // Si no encuentra su email busca por username
-            $user = Usuario::where('username', $request->input('username'))->first();
-
-        // se define la respuesta de error
-        $result = $this->result->build($this->STATUS_ERROR, $this->NO_RESULT, $this->NO_TOTAL, $this->message);
-       
         // verifica si el usuario existe sino responde con error
-        if (!$user)
-             return response()->json($result,  Response::HTTP_UNAUTHORIZED);        
-
-        // Verifica la contraseña y genera un token sino responde con error
-        if (!Hash::check($request->input('password'), $user->password))
+        if (!$user) {
+            // se define la respuesta de error
+            $result = $this->result->build($this->STATUS_ERROR, $this->NO_RESULT, $this->NO_TOTAL, $this->message);
+            // response el resultado con su codigo Http
             return response()->json($result, Response::HTTP_UNAUTHORIZED);
-         
-        // // Se actualiza la última vez que inició sesión el usuario
-        // $user->lastSession = date("Y-m-d H:i:s");
-        // $user->save();
+        }
 
-        // El usuario es válido. se asigna a el resultado el token.
-        $user['token'] =  JwtToken::create($user);
-      
         // Resultado mappeado
         $result = new LoginResource($user);
-    
-        $this->message = 'Usuario ha iniciado sesión correctamente';
 
         // construye respuesta correcta
-        $result = $this->result->build($this->STATUS_OK, $result, $this->NO_TOTAL, $this->message);
+        $result = $this->result->build($this->STATUS_OK, $result, $this->NO_TOTAL, 'Usuario ha iniciado sesión correctamente');
 
         // response el resultado con su codigo Http
         return response()->json($result, Response::HTTP_OK);
