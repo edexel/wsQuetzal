@@ -35,8 +35,9 @@ class VerifyCodePlatformController  extends Controller
     public function __invoke(NewCodePlatformRequest $request)
     {
 
+        $ObjClass = new \App\Business\Cliente\VerifyCodeClient;
         // realiza toda la logica de validacion
-        $client = ClienteBusiness::fnVerifyCodeClient($request->input('codigo'));
+        $client = $ObjClass($request->input('codigo'));
         
         if (!$client){
             // se define la respuesta de error

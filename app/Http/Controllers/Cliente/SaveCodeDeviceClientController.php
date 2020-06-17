@@ -37,7 +37,8 @@ class SaveCodeDeviceClientController extends Controller
     {
 
          // realiza toda la logica de validacion
-         $client = InstanciaCodigoBusiness::fnSaveCodeClient($request->input('codigo'), $this->oCurrentUser->idCliente);
+         $ObjClass = new \App\Business\InstanciaCodigo\saveCodeClientDevice;
+         $client = $ObjClass($request->input('codigo'), $this->oCurrentUser->idCliente);
 
         // construye respuesta correcta
         $result = $this->result->build($this->STATUS_OK, $this->NO_RESULT, $this->NO_TOTAL, "Registro guardado");

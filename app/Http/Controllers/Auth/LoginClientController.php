@@ -35,8 +35,9 @@ class LoginClientController  extends Controller
     public function __invoke(LoginRequest $request)
     {
 
+        $ObjClass = new \App\Business\Cliente\Login;
          // realiza toda la logica de validacion
-         $client = ClienteBusiness::fnLoginClient($request->input('username'), $request->input('password'));
+         $client = $ObjClass($request->input('username'), $request->input('password'));
 
          // verifica si el cliente existe si no, responde con error
          if (!$client) {

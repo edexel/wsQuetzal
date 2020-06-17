@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Business;
+namespace App\Business\Usuario;
 
 // Models
 use App\Models\Usuario;
@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Hash;
  * Created by Edewaldo Nuñez.
  * Date: 15 Jun 2020
  */
-class UsuarioBusiness
+class Login
 {
 
 
@@ -25,7 +25,7 @@ class UsuarioBusiness
      *
      * @return \App\Model\Usuario
      */
-    public static function fnLoginUser($username,$password)
+    public function __invoke($username,$password)
     {
         
         // Encuentra usuario de la base de datos

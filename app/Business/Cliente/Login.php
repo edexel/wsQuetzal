@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Business;
+namespace App\Business\Cliente;
 
 // Facades
 use Illuminate\Support\Facades\DB;
@@ -18,29 +18,8 @@ use Illuminate\Support\Facades\Hash;
  * Created by Edewaldo Nuñez.
  * Date: 16 Jun 2020
  */
-class ClienteBusiness
+class Login
 {
-
-
-     /**
-     *  valida el codigo del cliente para logearse en la app
-     *
-     * @return \App\Model\Cliente
-     */
-    public static function fnVerifyCodeClient($code)
-    {
-        
-         // Busca los datos de la pplataforma
-         $query =  DB::table('cliente')
-         ->join('instancia_sistema', 'cliente.idCliente', '=', 'instancia_sistema.idCliente')
-         ->join('instancia_codigos','instancia_codigos.idInstanciaCodigos', '=','instancia_codigos.idInstanciaSistema')
-         ->select('cliente.*','instancia_sistema.*')
-         ->where("instancia_codigos.codigo","=",$code)
-         ->first();
-
-
-        return $query != null ? $query : false;
-    }
 
     
      /**
@@ -48,7 +27,7 @@ class ClienteBusiness
      *
      * @return \App\Model\Cliente
      */
-    public static function fnLoginClient($username,$password)
+    public static function __invoke($username,$password)
     {
         
         // Encuentra usuario de la base de datos

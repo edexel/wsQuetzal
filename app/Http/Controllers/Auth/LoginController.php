@@ -33,8 +33,9 @@ class LoginController extends Controller
 
     public function __invoke(LoginRequest $request)
     {
+        $ObjClass = new \App\Business\Usuario\Login;
         // realiza toda la logica de validacion
-        $user = UsuarioBusiness::fnLoginUser($request->input('username'), $request->input('password'));
+        $user = $ObjClass($request->input('username'), $request->input('password'));
 
         // verifica si el usuario existe sino responde con error
         if (!$user) {

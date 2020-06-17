@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Business;
+namespace App\Business\InstanciaCodigo;
 
 // Models
 use App\Models\InstanciaSistema;
@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\DB;
  * Created by Edewaldo Nuñez.
  * Date: 16 Jun 2020
  */
-class InstanciaCodigoBusiness
+class saveCodeClientDevice
 {
 
      /**
@@ -23,7 +23,7 @@ class InstanciaCodigoBusiness
      *
      * @return \App\Model\Usuario
      */
-    public static function fnLoginUser($code,$idCliente)
+    public static function __invoke($code,$idCliente)
     {
         
         $idSistema = InstanciaSistema::where("idCliente", "=", $idCliente)->select("idInstanciaSistema")->first();
