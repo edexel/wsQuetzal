@@ -4,8 +4,6 @@ namespace App\Business\InstanciaCodigo;
 
 // Models
 use App\Models\InstanciaSistema;
-// Facades
-use Illuminate\Support\Facades\DB;
 
 //Models
 
