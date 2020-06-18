@@ -1,56 +1,60 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ */
+
 namespace App\Models;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
+ * Class InstanciaSistema
+ * 
  * @property int $idInstanciaSistema
  * @property int $idCliente
  * @property string $nombre
  * @property string $descripcion
  * @property string $subDominio
- * @property integer $activo
- * @property string $created_at
- * @property string $updated_at
- * @property string $deleted_at
+ * @property bool $activo
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property string|null $deleted_at
+ * 
  * @property Cliente $cliente
- * @property InstanciaCodigo[] $instanciaCodigos
+ * @property Collection|InstanciaCodigo[] $instancia_codigos
+ *
+ * @package App\Models
  */
 class InstanciaSistema extends Model
 {
-    /**
-     * The table associated with the model.
-     * 
-     * @var string
-     */
-    protected $table = 'instancia_sistema';
+	use SoftDeletes;
+	protected $table = 'instancia_sistema';
+	protected $primaryKey = 'idInstanciaSistema';
 
-    /**
-     * The primary key for the model.
-     * 
-     * @var string
-     */
-    protected $primaryKey = 'id';
+	protected $casts = [
+		'idCliente' => 'int',
+		'activo' => 'bool'
+	];
 
-    /**
-     * @var array
-     */
-    protected $fillable = ['idCliente', 'nombre', 'descripcion', 'subDominio', 'activo', 'created_at', 'updated_at', 'deleted_at'];
+	protected $fillable = [
+		'idCliente',
+		'nombre',
+		'descripcion',
+		'subDominio',
+		'activo'
+	];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function cliente()
-    {
-        return $this->belongsTo('App\Cliente', 'id', 'idCliente');
-    }
+	public function cliente()
+	{
+		return $this->belongsTo(Cliente::class, 'idCliente');
+	}
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function instanciaCodigos()
-    {
-        return $this->hasMany('App\InstanciaCodigo', 'idInstanciaSistema', 'id');
-    }
+	public function instancia_codigos()
+	{
+		return $this->hasMany(InstanciaCodigo::class, 'idInstanciaSistema');
+	}
 }

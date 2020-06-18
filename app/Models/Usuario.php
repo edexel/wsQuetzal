@@ -1,40 +1,57 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ */
+
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
+ * Class Usuario
+ * 
  * @property int $idUsuario
  * @property string $username
  * @property string $descripcion
  * @property string $password
  * @property string $email
  * @property string $tokenRecover
- * @property integer $Activo
- * @property string $created_at
- * @property string $updated_at
- * @property string $deleted_at
+ * @property bool $activo
+ * @property Carbon $ultimaConexion
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property string|null $deleted_at
+ *
+ * @package App\Models
  */
 class Usuario extends Model
 {
-    /**
-     * The table associated with the model.
-     * 
-     * @var string
-     */
-    protected $table = 'usuario';
+	use SoftDeletes;
+	protected $table = 'usuario';
+	protected $primaryKey = 'idUsuario';
 
-    /**
-     * The primary key for the model.
-     * 
-     * @var string
-     */
-    protected $primaryKey = 'id';
+	protected $casts = [
+		'activo' => 'bool'
+	];
 
-    /**
-     * @var array
-     */
-    protected $fillable = ['username', 'descripcion', 'password', 'email', 'tokenRecover', 'Activo', 'created_at', 'updated_at', 'deleted_at'];
+	protected $dates = [
+		'ultimaConexion'
+	];
 
+	protected $hidden = [
+		'password'
+	];
+
+	protected $fillable = [
+		'username',
+		'descripcion',
+		'password',
+		'email',
+		'tokenRecover',
+		'activo',
+		'ultimaConexion'
+	];
 }
