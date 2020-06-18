@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class Usuario
  * 
- * @property int $id
+ * @property int $idUsuario
  * @property string $username
  * @property string $descripcion
  * @property string $password
@@ -31,6 +31,7 @@ class Usuario extends Model
 {
 	use SoftDeletes;
 	protected $table = 'usuario';
+	protected $primaryKey = 'idUsuario';
 
 	protected $casts = [
 		'activo' => 'bool'

@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class InstanciaCodigo
  * 
- * @property int $id
+ * @property int $idInstanciaCodigos
  * @property int $idInstanciaSistema
  * @property string $codigo
  * @property bool $activo
@@ -29,6 +29,7 @@ class InstanciaCodigo extends Model
 {
 	use SoftDeletes;
 	protected $table = 'instancia_codigos';
+	protected $primaryKey = 'idInstanciaCodigos';
 
 	protected $casts = [
 		'idInstanciaSistema' => 'int',
