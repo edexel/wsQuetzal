@@ -14,8 +14,8 @@ class InstanciaCodigos extends Migration
     public function up()
     {
         Schema::create('instancia_codigos', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('idInstanciaSistema')->constrained('instancia_sistema');
+            $table->id('idInstanciaCodigos');
+            $table->foreignId('idInstanciaSistema')->references('idInstanciaSistema')->on('instancia_sistema');
             $table->string('codigo', 15);
             $table->boolean('activo');
             $table->dateTime('created_at', 0)->nullable();
