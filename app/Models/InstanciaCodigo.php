@@ -11,46 +11,38 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class Usuario
+ * Class InstanciaCodigo
  * 
  * @property int $id
- * @property string $username
- * @property string $descripcion
- * @property string $password
- * @property string $email
- * @property string $tokenRecover
+ * @property int $idInstanciaSistema
+ * @property string $codigo
  * @property bool $activo
- * @property Carbon $ultimaConexion
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property string|null $deleted_at
+ * 
+ * @property InstanciaSistema $instancia_sistema
  *
  * @package App\Models
  */
-class Usuario extends Model
+class InstanciaCodigo extends Model
 {
 	use SoftDeletes;
-	protected $table = 'usuario';
+	protected $table = 'instancia_codigos';
 
 	protected $casts = [
+		'idInstanciaSistema' => 'int',
 		'activo' => 'bool'
 	];
 
-	protected $dates = [
-		'ultimaConexion'
-	];
-
-	protected $hidden = [
-		'password'
-	];
-
 	protected $fillable = [
-		'username',
-		'descripcion',
-		'password',
-		'email',
-		'tokenRecover',
-		'activo',
-		'ultimaConexion'
+		'idInstanciaSistema',
+		'codigo',
+		'activo'
 	];
+
+	public function instancia_sistema()
+	{
+		return $this->belongsTo(InstanciaSistema::class, 'idInstanciaSistema');
+	}
 }

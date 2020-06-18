@@ -30,7 +30,7 @@ function ForgotPage() {
         <div className="col-lg-6 offset-lg-3 container-login">
             <h3 >Restablecimiento de contraseña</h3>
             <p>Para restablecer tu contraseña, introduce la dirección de 
-                correo electrónico que utilizas para iniciar sesión en <b>laura.klori.com.mx</b>.</p>
+                correo electrónico que utilizas para iniciar sesión en <b>quetzal.klori.com.mx</b>.</p>
             {/* Componente de Formulario de Login */}
             <ForgotForm onSubmit={onSubmit}/>
             <Link to='/login'>Iniciar sesión</Link>

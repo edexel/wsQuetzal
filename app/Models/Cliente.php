@@ -1,48 +1,58 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ */
+
 namespace App\Models;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * @property int $idCliente
+ * Class Cliente
+ * 
+ * @property int $id
  * @property string $nombre
- * @property string $apellidos
+ * @property string $apellido
  * @property string $email
  * @property string $password
  * @property string $descripcion
- * @property integer $Activo
- * @property string $created_at
- * @property string $updated_at
- * @property string $deleted_at
- * @property InstanciaSistema[] $instanciaSistemas
+ * @property bool $activo
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property string|null $deleted_at
+ * 
+ * @property Collection|InstanciaSistema[] $instancia_sistemas
+ *
+ * @package App\Models
  */
 class Cliente extends Model
 {
-    /**
-     * The table associated with the model.
-     * 
-     * @var string
-     */
-    protected $table = 'cliente';
+	use SoftDeletes;
+	protected $table = 'cliente';
 
-    /**
-     * The primary key for the model.
-     * 
-     * @var string
-     */
-    protected $primaryKey = 'id';
+	protected $casts = [
+		'activo' => 'bool'
+	];
 
-    /**
-     * @var array
-     */
-    protected $fillable = ['nombre', 'apellidos', 'email', 'password', 'descripcion', 'Activo', 'created_at', 'updated_at', 'deleted_at'];
+	protected $hidden = [
+		'password'
+	];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function instanciaSistemas()
-    {
-        return $this->hasMany('App\InstanciaSistema', 'id', 'idCliente');
-    }
+	protected $fillable = [
+		'nombre',
+		'apellido',
+		'email',
+		'password',
+		'descripcion',
+		'activo'
+	];
+
+	public function instancia_sistemas()
+	{
+		return $this->hasMany(InstanciaSistema::class, 'idCliente');
+	}
 }
