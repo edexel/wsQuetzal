@@ -10,11 +10,8 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Resources\Auth\LoginClientResource;
 use App\Http\Responses\Response as ResponseJson;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\Cliente;
-// Utils
-use App\Utils\JwtToken;
-//Models
-use Illuminate\Support\Facades\Hash;
+//Business
+use App\Business\ClienteBusiness;
 
 
 
@@ -38,36 +35,23 @@ class LoginClientController  extends Controller
     public function __invoke(LoginRequest $request)
     {
 
-        // Encuentra usuario de la base de datos
-        $client = Cliente::where('email', $request->input('username'))->first();
-        
-        //verifica si el usuario existe con email
-        if(!$client)
-            // Si no encuentra su email busca por username
-            $client = Cliente::where('nombre', $request->input('username'))->first();
+        $ObjClass = new \App\Business\Cliente\Login;
+         // realiza toda la logica de validacion
+         $client = $ObjClass($request->input('username'), $request->input('password'));
 
-        // se define la respuesta de error
-        $result = $this->result->build($this->STATUS_ERROR, $this->NO_RESULT, $this->NO_TOTAL, $this->message);
-       
-        // verifica si el usuario existe sino responde con error
-        if (!$client)
-             return response()->json($result,  Response::HTTP_UNAUTHORIZED);        
-
-        // Verifica la contraseña y genera un token sino responde con error
-        if (!Hash::check($request->input('password'), $client->password))
-            return response()->json($result, Response::HTTP_UNAUTHORIZED);
-         
-
-        // El usuario es válido. se asigna a el resultado el token.
-        $client['token'] =  JwtToken::createCodeClient($client);
-      
+         // verifica si el cliente existe si no, responde con error
+         if (!$client) {
+             // se define la respuesta de error
+             $result = $this->result->build($this->STATUS_ERROR, $this->NO_RESULT, $this->NO_TOTAL, $this->message);
+             // response el resultado con su codigo Http
+             return response()->json($result, Response::HTTP_UNAUTHORIZED);
+         }
+ 
         // Resultado mappeado
         $result = new LoginClientResource($client);
     
-        $this->message = 'Usuario ha iniciado sesión correctamente';
-
         // construye respuesta correcta
-        $result = $this->result->build($this->STATUS_OK, $result, $this->NO_TOTAL, $this->message);
+        $result = $this->result->build($this->STATUS_OK, $result, $this->NO_TOTAL, 'Usuario ha iniciado sesión correctamente');
 
         // response el resultado con su codigo Http
         return response()->json($result, Response::HTTP_OK);

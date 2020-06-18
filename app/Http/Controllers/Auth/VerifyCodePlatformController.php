@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Support\Facades\DB;
+
 // extends
 use App\Http\Controllers\Controller;
 // responses
@@ -11,6 +11,8 @@ use App\Http\Resources\Auth\VerifyCodePltformResource;
 // requests
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Requests\Auth\NewCodePlatformRequest;
+//Business
+use App\Business\ClienteBusiness;
 
 class VerifyCodePlatformController  extends Controller
 {
@@ -32,26 +34,19 @@ class VerifyCodePlatformController  extends Controller
      */
     public function __invoke(NewCodePlatformRequest $request)
     {
-    
-        $code = $request->input('codigo');
-       
-        // Busca los datos de la pplataforma
-          $query =  DB::table('cliente')
-                        ->join('instancia_sistema', 'cliente.idCliente', '=', 'instancia_sistema.idCliente')
-                        ->join('instancia_codigos','instancia_codigos.idInstanciaCodigos', '=','instancia_codigos.idInstanciaSistema')
-                        ->select('cliente.*','instancia_sistema.*')
-                        ->where("instancia_codigos.codigo","=",$code)
-                        ->first();
 
-
-        // se define la respuesta de error
-        $result = $this->result->build($this->STATUS_ERROR, $this->NO_RESULT, $this->NO_TOTAL, $this->message);
-        if (!$query)
-            return response()->json($result, Response::HTTP_UNAUTHORIZED);
+        $ObjClass = new \App\Business\Cliente\VerifyCodeClient;
+        // realiza toda la logica de validacion
+        $client = $ObjClass($request->input('codigo'));
         
-          
+        if (!$client){
+            // se define la respuesta de error
+            $result = $this->result->build($this->STATUS_ERROR, $this->NO_RESULT, $this->NO_TOTAL, $this->message);
+            return response()->json($result, Response::HTTP_UNAUTHORIZED);
+        }
+    
         // Resultado mappeado
-        $result = new VerifyCodePltformResource($query);
+        $result = new VerifyCodePltformResource($client);
 
         // construye respuesta correcta
         $result = $this->result->build($this->STATUS_OK, $result, $this->NO_TOTAL, "Código encontrado");

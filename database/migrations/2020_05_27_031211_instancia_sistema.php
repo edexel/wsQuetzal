@@ -14,8 +14,8 @@ class InstanciaSistema extends Migration
     public function up()
     {
         Schema::create('instancia_sistema', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('idCliente')->constrained('cliente');
+            $table->id('idInstanciaSistema');
+            $table->foreignId('idCliente')->references('idCliente')->on('cliente');
             $table->string('nombre', 50);
             $table->string('descripcion', 100);
             $table->string('subDominio', 100);
