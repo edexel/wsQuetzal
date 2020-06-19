@@ -1,3 +1,3 @@
 <?php
 // rutas sobre el modulo de Acceso
-$router->Post('/cliente/SaveCodeDevice','Cliente\SaveCodeDeviceClientController');
+$router->Post('/cliente/savecodedevice','Cliente\SaveCodeDeviceClientController');
