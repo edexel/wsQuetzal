@@ -14,6 +14,108 @@
         }
     ],
     "paths": {
+        "/web/auth/change": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Restablecer contraseña",
+                "operationId": "Change",
+                "requestBody": {
+                    "description": "Formato de envío de datos",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "t": {
+                                        "description": "Token de usuario",
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "description": "Contraseña nueva de usuario",
+                                        "type": "string"
+                                    },
+                                    "confirm_password": {
+                                        "description": "Confirma nueva de usuario",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Se ha enviado el enlace de restablecer contraseña correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ChangeResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Usuario no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/web/auth/forgot": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Restablecer contraseña",
+                "operationId": "Forgot",
+                "requestBody": {
+                    "description": "Formato de envío de datos",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "username": {
+                                        "description": "Nombre de usuario",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Se ha enviado el enlace de restablecer contraseña correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForgotResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Usuario no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/admin/auth/loginClient": {
             "post": {
                 "tags": [
@@ -216,6 +318,28 @@
     },
     "components": {
         "schemas": {
+            "ChangeResponse": {
+                "properties": {
+                    "status": {
+                        "type": "boolean"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "ForgotResponse": {
+                "properties": {
+                    "status": {
+                        "type": "boolean"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "loginClientResponse": {
                 "properties": {
                     "status": {

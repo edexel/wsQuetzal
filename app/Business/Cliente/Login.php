@@ -27,27 +27,27 @@ class Login
      *
      * @return \App\Model\Cliente
      */
-    public static function __invoke($username,$password)
+    public function __invoke($username,$password)
     {
         
-        // Encuentra usuario de la base de datos
-        $user = Cliente::where('email', $username)->first();
-  
-        //verifica si el usuario existe con email
-        if (!$user)
-            $user = Cliente::where('username', $username)->first();
+        // Encuentra cliente de la base de datos
+        $cliente = Cliente::where('email', $username)->first();
+       
+        // //verifica si el usuario existe con email
+        // if (!$cliente)
+        //     $cliente = Cliente::where('username', $username)->first();
         
         // verifica si el usuario existe sino responde con error
-        if (!$user) 
+        if (!$cliente) 
             return false;
         
         // Verifica la contraseña y genera un token sino responde con error
-        if (!Hash::check($password, $user->password)) 
+        if (!Hash::check($password, $cliente->password)) 
             return false;
         
         // El usuario es válido. se asigna a el resultado el token.
-        $user['token'] = JwtToken::createCodeClient($user);
+        $cliente['token'] = JwtToken::createCodeClient($cliente);
 
-        return $user;
+        return $cliente;
     }
 }

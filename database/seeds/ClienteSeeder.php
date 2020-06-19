@@ -17,7 +17,7 @@ class ClienteSeeder extends Seeder
         DB::table('cliente')->insert([
             'nombre' => 'Test',
             'apellido' => 'Tester',
-            'email' => 'cliente@mail.com',
+            'email' => 'user2@mail.com',
             'password' => Hash::make('test123'),
             'descripcion' => Str::random(30),
             'activo' => true,
