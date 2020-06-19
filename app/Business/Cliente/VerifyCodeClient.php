@@ -27,7 +27,7 @@ class VerifyCodeClient
      *
      * @return \App\Model\Cliente
      */
-    public static function __invoke($code)
+    public  function __invoke($code)
     {
         
          // Busca los datos de la pplataforma

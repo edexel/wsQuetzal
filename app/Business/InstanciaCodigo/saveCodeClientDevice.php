@@ -4,6 +4,7 @@ namespace App\Business\InstanciaCodigo;
 
 // Models
 use App\Models\InstanciaSistema;
+use App\Models\InstanciaCodigos;
 
 //Models
 
@@ -19,9 +20,9 @@ class saveCodeClientDevice
      /**
      *  valida que el InstanciaCodigo exista en el sistema
      *
-     * @return \App\Model\Usuario
+     * @return \App\Model\InstanciaCodigos
      */
-    public static function __invoke($code,$idCliente)
+    public  function __invoke($code,$idCliente)
     {
         
         $idSistema = InstanciaSistema::where("idCliente", "=", $idCliente)->select("idInstanciaSistema")->first();
